@@ -2,6 +2,7 @@ import pygame
 
 size = width, height = [680, 400]
 jugadores = pygame.sprite.Group()
+reloj = pygame.time.Clock()
 
 class Jugador(pygame.sprite.Sprite):
 	"""docstring for Jugador"""
@@ -10,6 +11,16 @@ class Jugador(pygame.sprite.Sprite):
 		self.f = matrix
 		self.image = self.f[0][0]
 		self.rect = self.image.get_rect()
+		self.direction = 0
+		self.index = 0
+
+	def update(self):
+		if self.direction == 1:
+			self.image = self.f[0][self.index]
+			self.index += 1
+			if self.index >= 11:
+				self.index = 0
+			self.rect.x += 5
 
 
 #Recortar sprite
@@ -17,7 +28,7 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageSprite = pygame.image.load(nombrearchivo)
 	imageInfo = imageSprite.get_rect()
 	imageWidth = imageInfo[2]
-	imageHeight = imageInfo[3]
+	imageHeight = imageInfo[3] -200
 	corteX = imageWidth / cantidadX
 	matrix = []
 	corteY = imageHeight / cantidadY
@@ -31,10 +42,20 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 if __name__ == "__main__":
     pygame.init()
     pantalla = pygame.display.set_mode(size)
-    matrixHomero = recortarSprite('source/homerosprite.png', )
-    jugador = Jugador()
+    matrixKano = recortarSprite('source/homerosprite.png', 16, 39)
+    jugador = Jugador(matrixKano)
+    jugadores.add(jugador)
+    pygame.display.flip()
     done = False
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+            elif event.type == pygame.KEYDOWN:
+            	if event.key == pygame.K_RIGHT:
+            		jugador.direction = 1
+     	pantalla.fill([0, 0, 0])
+    	jugadores.draw(pantalla)
+    	jugadores.update()
+    	pygame.display.flip()
+    	reloj.tick(10)
