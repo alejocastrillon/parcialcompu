@@ -92,7 +92,7 @@ if __name__ == "__main__":
         elif jugador.direction == 3 and jugador.rect.y >= 20 and posy <= -10:
         	posy += 5
         generateAmbient()
-    	  jugadores.draw(pantalla)
-    	  jugadores.update()
-    	  pygame.display.flip()
-    	  reloj.tick(10)
+    	jugadores.draw(pantalla)
+    	jugadores.update()
+    	pygame.display.flip()
+    	reloj.tick(10)
