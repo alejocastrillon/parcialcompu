@@ -50,9 +50,9 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageInfo = imageSprite.get_rect()
 	imageWidth = imageInfo[2]
 	imageHeight = imageInfo[3]
-	corteX = imageWidth / cantidadX
+	corteX = (imageWidth / cantidadX)-1
 	matrix = []
-	corteY = imageHeight / cantidadY
+	corteY = (imageHeight / cantidadY)-1
 	for y in range(cantidadY):
 		matrix.append([])
 		for x in range(cantidadX):
