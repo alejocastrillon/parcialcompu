@@ -72,7 +72,7 @@ if __name__ == "__main__":
             elif event.type == pygame.KEYDOWN:
             	if event.key == pygame.K_RIGHT:
             		jugador.direction = 1
-            	elif event.key == pygame.K_DOWN:
+            	elif event.key == pygame.K_b:
             		jugador.direction = 2
             	elif event.key == pygame.K_SPACE:
             		jugador.direction = 0
