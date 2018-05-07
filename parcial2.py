@@ -32,6 +32,13 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.y <= height - 150:
 				self.rect.y += 5
+		elif self.direction == 3:
+			self.image = self.f[0][self.index]
+			self.index += 1
+			if self.index >= 8:
+				self.index = 4
+			if self.rect.y >= 5:
+				self.rect.y -= 5
 
 def generateAmbient():
 	pantalla.blit(imageFondo, [posx, posy])
@@ -72,14 +79,18 @@ if __name__ == "__main__":
             elif event.type == pygame.KEYDOWN:
             	if event.key == pygame.K_RIGHT:
             		jugador.direction = 1
-            	elif event.key == pygame.K_DOWN:
+            	elif event.key == pygame.K_b:
             		jugador.direction = 2
+            	elif event.key == pygame.K_UP:
+            		jugador.direction = 3
             	elif event.key == pygame.K_SPACE:
             		jugador.direction = 0
         if jugador.direction == 1 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
         	posx -= 5
         elif jugador.direction == 2 and jugador.rect.y >= height - 150 and posy >= height- imageFondoHeight:
         	posy -= 5
+        elif jugador.direction == 3 and jugador.rect.y >= 20 and posy <= -10:
+        	posy += 5
         generateAmbient()
     	jugadores.draw(pantalla)
     	jugadores.update()
