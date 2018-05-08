@@ -105,10 +105,10 @@ if __name__ == "__main__":
 
         if jugador.direction == 1 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
         	posx -= 5
-        elif jugador.direction == 2 and jugador.rect.y >= height - 150 and posy >= height- imageFondoHeight:
+        elif jugador.direction == 4 and jugador.rect.y >= height - 150 and posy >= height- imageFondoHeight:
         	posy -= 5
-        elif jugador.direction == 3 and jugador.rect.y >= 20 and posy <= -10:
-        	posy += 5
+        elif jugador.direction == 2 and jugador.rect.x>= 20 and posx <= -10:
+        	posx += 5
         generateAmbient()
     	jugadores.draw(pantalla)
     	jugadores.update()
