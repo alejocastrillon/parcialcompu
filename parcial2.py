@@ -19,7 +19,7 @@ class Jugador(pygame.sprite.Sprite):
 
 	def update(self):
 		if self.direction == 1:
-			self.image = self.f[0][self.index]
+			self.image = self.f[2][self.index]
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
@@ -33,7 +33,7 @@ class Jugador(pygame.sprite.Sprite):
 			if self.rect.y <= height - 150:
 				self.rect.y += 5
 		elif self.direction == 3:
-			self.image = self.f[0][self.index]
+			self.image = self.f[4][self.index]
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     imageFondoWidth = imagefondoInfo[2]
     imageFondoHeight = imagefondoInfo[3]
     generateAmbient()
-    matrixKano = recortarSprite('source/homerocamina.png', 12, 1)
+    matrixKano = recortarSprite('source/mariomoves.png', 8, 5)
     jugador = Jugador(matrixKano)
     jugadores.add(jugador)
     pygame.display.flip()
