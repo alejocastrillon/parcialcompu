@@ -50,7 +50,7 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageInfo = imageSprite.get_rect()
 	imageWidth = imageInfo[2]
 	imageHeight = imageInfo[3]
-	corteX = imageWidth / cantidadX
+	corteX = imageWidth / cantidadX - 1
 	matrix = []
 	corteY = imageHeight / cantidadY
 	for y in range(cantidadY):
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     imageFondoWidth = imagefondoInfo[2]
     imageFondoHeight = imagefondoInfo[3]
     generateAmbient()
-    matrixKano = recortarSprite('source/mariomoves.png', 8, 5)
+    matrixKano = recortarSprite('source/mario.png', 8, 5)
     jugador = Jugador(matrixKano)
     jugadores.add(jugador)
     pygame.display.flip()
@@ -79,7 +79,7 @@ if __name__ == "__main__":
             elif event.type == pygame.KEYDOWN:
             	if event.key == pygame.K_RIGHT:
             		jugador.direction = 1
-            	elif event.key == pygame.K_DOWN:
+            	elif event.key == pygame.K_b:
             		jugador.direction = 2
             	elif event.key == pygame.K_UP:
             		jugador.direction = 3
