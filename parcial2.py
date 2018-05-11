@@ -145,14 +145,15 @@ if __name__ == "__main__":
     menuPos = 1
     a=20
     b=20
-    menuStart(NEGRO,NEGRO,a,b)
+    menuStart(AZUL,NEGRO,a*2,b)
     done = False
     while not selection:
+
     	for event in pygame.event.get():
     		if event.type == pygame.QUIT:
 				done = True
     		if event.type == pygame.KEYDOWN:
-    			if event.key == pygame.K_b:
+    			if event.key == pygame.K_DOWN:
     				menuPos +=1
     				if menuPos == 2:
     					b = b*2
@@ -185,13 +186,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_a:
+				elif event.key == pygame.K_LEFT:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_b:
+				elif event.key == pygame.K_DOWN:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_SPACE:
