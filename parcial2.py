@@ -6,6 +6,9 @@ reloj = pygame.time.Clock()
 pantalla = pygame.display.set_mode(size)
 posx = 0
 posy = 0
+BLANCO = [255,255,255]
+NEGRO = [0,0,0]
+AZUL = [0,0,255]
 
 class Jugador(pygame.sprite.Sprite):
 	"""docstring for Jugador"""
@@ -93,6 +96,21 @@ def generateAmbient():
 	pantalla.blit(imageFondo, [posx, posy])
 
 
+#generar menu
+
+def menuStart(colorUno,colorDos,a,b):
+	pantalla.fill(BLANCO)
+	largoTexto = pygame.font.Font('freesansbold.ttf',a)
+	largoTextoDos = pygame.font.Font('freesansbold.ttf',b)
+	renderUno = largoTexto.render("Jugar",True,colorUno)
+	renderDos = largoTextoDos.render("Salir",True,colorDos)
+	pos_Uno = (width/2,height/2)
+	pos_Dos = (width/2,(height/2) + 35)
+	pantalla.blit(renderUno,pos_Uno)
+	pantalla.blit(renderDos,pos_Dos)
+	pygame.display.flip()
+
+
 #Recortar sprite
 def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageSprite = pygame.image.load(nombrearchivo)
@@ -110,6 +128,8 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 			matrix[y].append(cuadro)
 	return matrix
 
+
+
 if __name__ == "__main__":
     pygame.init()
     imageFondo = pygame.image.load('source/fondo.png')
@@ -121,7 +141,41 @@ if __name__ == "__main__":
     jugador = Jugador(matrixKano)
     jugadores.add(jugador)
     pygame.display.flip()
+    selection = False
+    menuPos = 1
+    a=20
+    b=20
+    menuStart(NEGRO,NEGRO,a,b)
     done = False
+    while not selection:
+    	for event in pygame.event.get():
+    		if event.type == pygame.QUIT:
+				done = True
+    		if event.type == pygame.KEYDOWN:
+    			if event.key == pygame.K_DOWN:
+    				menuPos +=1
+    				if menuPos == 2:
+    					b = b*2
+    					a=20
+    					menuStart(NEGRO,AZUL,a,b)
+    				elif menuPos >= 2:
+    					menuPos = 2
+    			elif event.key == pygame.K_UP:
+    				menuPos -=1
+    				if menuPos == 1:
+    					a = a*2
+    					b=20
+    					menuStart(AZUL,NEGRO,a,b)
+    				elif menuPos <= 0:
+    					menuPos = 1
+
+    			elif event.key == pygame.K_SPACE:
+    				if menuPos == 1:
+    					selection = True
+    				elif menuPos == 2:
+    					done = True
+    					selection = True
+
     while not done:
         for event in pygame.event.get():
 			if event.type == pygame.QUIT:
