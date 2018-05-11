@@ -39,7 +39,7 @@ class Jugador(pygame.sprite.Sprite):
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
-			if self.rect.x >= 33:
+			if self.rect.x >= 20:
 				self.rect.x += -5
 		elif self.direction == 3 and self.action == 2:
 			self.image = self.f[2][self.index]
@@ -186,13 +186,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_LEFT:
+				elif event.key == pygame.K_a:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_b:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_SPACE:
@@ -206,7 +206,7 @@ if __name__ == "__main__":
         	posx -= 5
         elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 150 and posy >= height- imageFondoHeight:
         	posy -= 5
-        elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x >= 20 and posx <= -10:
+        elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
         	posx += 5
         elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 20 and posy <= -10:
         	posy += 5
