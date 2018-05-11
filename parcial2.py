@@ -117,11 +117,7 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageInfo = imageSprite.get_rect()
 	imageWidth = imageInfo[2]
 	imageHeight = imageInfo[3]
-<<<<<<< HEAD
-	corteX = imageWidth / cantidadX - 1
-=======
 	corteX = 33
->>>>>>> 2e2ff80618191bfd9e7cb2c02d40dc24463d021e
 	matrix = []
 	corteY = (imageHeight / cantidadY)
 	listaCorte = [8,8,8,8,9,9,6,6]
@@ -141,11 +137,7 @@ if __name__ == "__main__":
     imageFondoWidth = imagefondoInfo[2]
     imageFondoHeight = imagefondoInfo[3]
     generateAmbient()
-<<<<<<< HEAD
-    matrixKano = recortarSprite('source/mario.png', 8, 5)
-=======
     matrixKano = recortarSprite('source/terminado.png', 8, 8)
->>>>>>> 2e2ff80618191bfd9e7cb2c02d40dc24463d021e
     jugador = Jugador(matrixKano)
     jugadores.add(jugador)
     pygame.display.flip()
@@ -160,7 +152,7 @@ if __name__ == "__main__":
     		if event.type == pygame.QUIT:
 				done = True
     		if event.type == pygame.KEYDOWN:
-    			if event.key == pygame.K_DOWN:
+    			if event.key == pygame.K_b:
     				menuPos +=1
     				if menuPos == 2:
     					b = b*2
@@ -186,19 +178,6 @@ if __name__ == "__main__":
 
     while not done:
         for event in pygame.event.get():
-<<<<<<< HEAD
-            if event.type == pygame.QUIT:
-                done = True
-            elif event.type == pygame.KEYDOWN:
-            	if event.key == pygame.K_RIGHT:
-            		jugador.direction = 1
-            	elif event.key == pygame.K_b:
-            		jugador.direction = 2
-            	elif event.key == pygame.K_UP:
-            		jugador.direction = 3
-            	elif event.key == pygame.K_SPACE:
-            		jugador.direction = 0
-=======
 			if event.type == pygame.QUIT:
 				done = True
 			elif event.type == pygame.KEYDOWN:
@@ -206,13 +185,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_LEFT:
+				elif event.key == pygame.K_a:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_b:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_SPACE:
@@ -222,14 +201,13 @@ if __name__ == "__main__":
 				elif event.key == pygame.K_m:
 					jugador.action = 3
 
->>>>>>> 2e2ff80618191bfd9e7cb2c02d40dc24463d021e
-        if jugador.direction == 1 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
+        if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
         	posx -= 5
-        elif jugador.direction == 4 and jugador.rect.y >= height - 150 and posy >= height- imageFondoHeight:
+        elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 150 and posy >= height- imageFondoHeight:
         	posy -= 5
-        elif jugador.direction == 2 and jugador.rect.x>= 20 and posx <= -10:
+        elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x >= 20 and posx <= -10:
         	posx += 5
-        elif jugador.direction == 3 and jugador.rect.y >= 40 and posy <= -10:
+        elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 20 and posy <= -10:
         	posy += 5
         generateAmbient()
     	jugadores.draw(pantalla)
