@@ -1,4 +1,6 @@
 import pygame
+import json
+from math import *
 
 size = width, height = [680, 400]
 jugadores = pygame.sprite.Group()
@@ -6,9 +8,35 @@ reloj = pygame.time.Clock()
 pantalla = pygame.display.set_mode(size)
 posx = 0
 posy = 0
+listcollide =[]
 BLANCO = [255,255,255]
 NEGRO = [0,0,0]
 AZUL = [0,0,255]
+
+def readerFileCollide():
+	with open('source/fondo.json') as col:
+		data = json.load(col)
+		cantidadX = data["layers"][1]["width"]
+		cantidadY = data["layers"][1]["height"]
+		listcol = data["layers"][1]["data"]
+		dpx = 0
+		dpy = 0
+		listcollide.append([])
+		for x in listcol:
+			if dpx == cantidadX:
+				dpx = 0
+				dpy += 1
+				listcollide.append([])
+			listcollide[dpy].append(x)
+			dpx += 1
+
+def validateMove(dx, dy):
+	print "data received: ", listcollide[dx][dy]
+	if listcollide[dx][dy] == 0:
+		print "data: ", listcollide[dy][dx]
+		return True
+	else:
+		return False
 
 class Jugador(pygame.sprite.Sprite):
 	"""docstring for Jugador"""
@@ -20,6 +48,8 @@ class Jugador(pygame.sprite.Sprite):
 		self.direction = 0
 		self.action = 0
 		self.index = 0
+		self.matrixposx = int(round(self.rect.x / 32))
+		self.matrixposy = int(round(self.rect.y / 32))
 
 		'''Acciones:
 		1. Puno
@@ -27,13 +57,18 @@ class Jugador(pygame.sprite.Sprite):
 		3. Martillo '''
 
 	def update(self):
+		self.matrixposx = int(round(self.rect.x / 32))
+		self.matrixposy = int(round(self.rect.y / 32))
+		print self.matrixposx, self.matrixposy
+
 		if self.direction == 1 and self.action == 2:
 			self.image = self.f[1][self.index]
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
 			if self.rect.x <= width - 150:
-				self.rect.x += 5
+				if validateMove(int(round(self.rect.y / 32)), int(round((self.rect.x + 5) / 32))):
+					self.rect.x += 5
 		elif self.direction == 2 and self.action == 2:
 			self.image = self.f[3][self.index]
 			self.index += 1
@@ -46,14 +81,14 @@ class Jugador(pygame.sprite.Sprite):
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
-			if self.rect.y >= 10:
+			if self.rect.y >= 40:
 				self.rect.y -= 5
 		elif self.direction == 4 and self.action == 2:
 			self.image = self.f[0][self.index]
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
-			if self.rect.y <= height - 150:
+			if self.rect.y <= height - 80:
 				self.rect.y += 5
 
 		if self.action == 1:
@@ -129,9 +164,9 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	return matrix
 
 
-
 if __name__ == "__main__":
     pygame.init()
+    readerFileCollide()
     imageFondo = pygame.image.load('source/fondo.png')
     imagefondoInfo = imageFondo.get_rect()
     imageFondoWidth = imagefondoInfo[2]
@@ -152,6 +187,7 @@ if __name__ == "__main__":
     	for event in pygame.event.get():
     		if event.type == pygame.QUIT:
 				done = True
+				selection = True
     		if event.type == pygame.KEYDOWN:
     			if event.key == pygame.K_DOWN:
     				menuPos +=1
@@ -186,13 +222,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_LEFT:
+				elif event.key == pygame.K_a:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_b:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_SPACE:
@@ -204,11 +240,11 @@ if __name__ == "__main__":
 
         if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
         	posx -= 5
-        elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 150 and posy >= height- imageFondoHeight:
+        elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
         	posy -= 5
         elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
         	posx += 5
-        elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 20 and posy <= -10:
+        elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
         	posy += 5
         generateAmbient()
     	jugadores.draw(pantalla)
