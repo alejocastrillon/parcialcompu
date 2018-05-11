@@ -12,6 +12,7 @@ listcollide =[]
 BLANCO = [255,255,255]
 NEGRO = [0,0,0]
 AZUL = [0,0,255]
+ROJO = [255,0,0]
 
 def readerFileCollide():
 	with open('source/fondo.json') as col:
@@ -135,6 +136,8 @@ def generateAmbient():
 
 def menuStart(colorUno,colorDos,a,b):
 	pantalla.fill(BLANCO)
+	fondo = pygame.image.load("source/fondoMenu.png")
+	pantalla.blit(fondo,[0,0])
 	largoTexto = pygame.font.Font('freesansbold.ttf',a)
 	largoTextoDos = pygame.font.Font('freesansbold.ttf',b)
 	renderUno = largoTexto.render("Jugar",True,colorUno)
@@ -180,7 +183,7 @@ if __name__ == "__main__":
     menuPos = 1
     a=20
     b=20
-    menuStart(AZUL,NEGRO,a*2,b)
+    menuStart(ROJO,NEGRO,a*2,b)
     done = False
     while not selection:
 
@@ -194,7 +197,7 @@ if __name__ == "__main__":
     				if menuPos == 2:
     					b = b*2
     					a=20
-    					menuStart(NEGRO,AZUL,a,b)
+    					menuStart(NEGRO,ROJO,a,b)
     				elif menuPos >= 2:
     					menuPos = 2
     			elif event.key == pygame.K_UP:
@@ -202,7 +205,7 @@ if __name__ == "__main__":
     				if menuPos == 1:
     					a = a*2
     					b=20
-    					menuStart(AZUL,NEGRO,a,b)
+    					menuStart(ROJO,NEGRO,a,b)
     				elif menuPos <= 0:
     					menuPos = 1
 
