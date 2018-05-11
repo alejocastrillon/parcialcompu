@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="objetos" tilewidth="32" tileheight="32" tilecount="256" columns="16">
- <image source="../../../../../Imágenes/tiledrpg.png" width="512" height="512"/>
+<tileset name="mario2" tilewidth="33" tileheight="39" tilecount="1" columns="1">
+ <image source="../../../../../Descargas/2.png" trans="ff00ff" width="33" height="39"/>
 </tileset>
