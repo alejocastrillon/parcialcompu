@@ -13,6 +13,10 @@ BLANCO = [255,255,255]
 NEGRO = [0,0,0]
 AZUL = [0,0,255]
 ROJO = [255,0,0]
+pygame.mixer.init(44100, -16, 2, 2048)
+golpe = pygame.mixer.Sound("source/Sounds/punch.ogg")
+movement = pygame.mixer.Sound("source/Sounds/walk.ogg")
+fondo = pygame.mixer.Sound("source/Sounds/musicfondo.ogg")
 
 def readerFileCollide():
 	with open('source/fondo.json') as col:
@@ -61,6 +65,7 @@ class Jugador(pygame.sprite.Sprite):
 		self.matrixposx = int(round(self.rect.x / 32))
 		self.matrixposy = int(round(self.rect.y / 32))
 		print self.matrixposx, self.matrixposy
+
 
 		if self.direction == 1 and self.action == 2:
 			self.image = self.f[1][self.index]
@@ -218,7 +223,7 @@ if __name__ == "__main__":
     				elif menuPos == 2:
     					done = True
     					selection = True
-
+    fondo.play()
     while not done:
         for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -240,6 +245,7 @@ if __name__ == "__main__":
 				elif event.key == pygame.K_SPACE:
 					jugador.direction = 0
 				elif event.key == pygame.K_p:
+					golpe.play()
 					jugador.action = 1
 				elif event.key == pygame.K_m:
 					jugador.action = 3
