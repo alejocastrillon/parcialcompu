@@ -126,14 +126,6 @@ class Jugador(pygame.sprite.Sprite):
 				else:
 					self.image = self.f[self.direction][self.index]
 				self.action = 0
-		'''elif self.action == 1 and self.direction == 2:
-			self.image = self.f[5][self.index]
-			self.index +=1
-			if self.index >=8:
-				self.index = 0
-				self.image = self.f[3][self.index]
-				self.action = 0
-				self.direction = 0'''
 
 
 def generateAmbient():
