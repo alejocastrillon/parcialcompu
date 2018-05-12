@@ -32,8 +32,8 @@ def readerFileCollide():
 			dpx += 1
 
 def validateMove(dx, dy):
-	print "data received: ", listcollide[dx][dy]
-	if listcollide[dx][dy] == 0:
+	print "data received: ", listcollide[dy][dx]
+	if listcollide[dy][dx] == 0:
 		print "data: ", listcollide[dy][dx]
 		return True
 	else:
@@ -68,7 +68,7 @@ class Jugador(pygame.sprite.Sprite):
 			if self.index >= 8:
 				self.index = 4
 			if self.rect.x <= width - 150:
-				if validateMove(int(round(self.rect.y / 32)), int(round((self.rect.x + 5) / 32))):
+				if validateMove(int(ceil((self.rect.x + abs(posx) + 28) / 32)), int(ceil((self.rect.y + abs(posy) + 20) / 32))):
 					self.rect.x += 5
 		elif self.direction == 2 and self.action == 2:
 			self.image = self.f[3][self.index]
@@ -76,21 +76,24 @@ class Jugador(pygame.sprite.Sprite):
 			if self.index >= 8:
 				self.index = 4
 			if self.rect.x >= 20:
-				self.rect.x += -5
+				if validateMove(int(ceil((self.rect.x + abs(posx)) / 32)), int(ceil((self.rect.y + abs(posy) + 20) / 32))):
+					self.rect.x += -5
 		elif self.direction == 3 and self.action == 2:
 			self.image = self.f[2][self.index]
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
 			if self.rect.y >= 40:
-				self.rect.y -= 5
+				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 16) / 32))):
+					self.rect.y -= 5
 		elif self.direction == 4 and self.action == 2:
 			self.image = self.f[0][self.index]
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
 			if self.rect.y <= height - 80:
-				self.rect.y += 5
+				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 32) / 32))):
+					self.rect.y += 5
 
 		if self.action == 1:
 			if self.direction == 2:
@@ -242,13 +245,17 @@ if __name__ == "__main__":
 					jugador.action = 3
 
         if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
-        	posx -= 5
-        elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
-        	posy -= 5
+        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
+        		posx -= 5
         elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
-        	posx += 5
+        	if validateMove(int(ceil((jugador.rect.x + abs(posx)) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
+        		posx += 5
         elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
-        	posy += 5
+        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 16) / 32))):
+        		posy += 5
+        elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
+        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
+        		posy -= 5
         generateAmbient()
     	jugadores.draw(pantalla)
     	jugadores.update()
