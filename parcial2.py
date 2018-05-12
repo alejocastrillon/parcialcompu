@@ -97,7 +97,7 @@ class Jugador(pygame.sprite.Sprite):
 			if self.index >= 8:
 				self.index = 4
 			if self.rect.y <= height - 80:
-				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 32) / 32))):
+				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 36) / 32))):
 					self.rect.y += 5
 
 		if self.action == 1:
@@ -233,13 +233,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_a:
+				elif event.key == pygame.K_LEFT:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_b:
+				elif event.key == pygame.K_DOWN:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_SPACE:
