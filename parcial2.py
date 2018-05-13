@@ -4,6 +4,8 @@ from math import *
 
 size = width, height = [680, 400]
 jugadores = pygame.sprite.Group()
+enemigosBowser = pygame.sprite.Group()
+todos = pygame.sprite.Group()
 reloj = pygame.time.Clock()
 pantalla = pygame.display.set_mode(size)
 posx = 0
@@ -88,7 +90,7 @@ class Jugador(pygame.sprite.Sprite):
 			self.index += 1
 			if self.index >= 8:
 				self.index = 4
-			if self.rect.y >= 40:
+			if self.rect.y >= 30 :
 				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 16) / 32))):
 					self.rect.y -= 5
 		elif self.direction == 4 and self.action == 2:
@@ -127,6 +129,84 @@ class Jugador(pygame.sprite.Sprite):
 					self.image = self.f[self.direction][self.index]
 				self.action = 0
 
+class BowserEnemy(pygame.sprite.Sprite):
+	"""docstring for BowserEnemy"""
+	def __init__(self, matrix):
+		pygame.sprite.Sprite.__init__(self)
+		self.f = matrix
+		self.image = self.f[0][0]
+		self.rect = self.image.get_rect()
+		self.direction = 0
+		self.action = 0
+		self.index = 0
+		self.rect.y = 50
+		self.rect.x = 250
+
+	def update(self, posMarioX, posMarioY):
+		print "Delta x: ", abs(posMarioX - self.rect.x)
+		print "Delta Y: ", abs(posMarioY - self.rect.y)
+		if abs(posMarioY - self.rect.y) > abs(posMarioX - self.rect.x):
+			if (posMarioX - self.rect.x < 0):
+				self.direction = 2
+				self.action = 2
+			elif (posMarioX - self.rect.x > 0):
+				self.direction = 1
+				self.action = 2
+		elif abs(posMarioY - self.rect.y) < abs(posMarioX - self.rect.x):
+			if (posMarioY - self.rect.y < 0):
+				self.direction = 3
+				self.action = 2
+			elif (posMarioY - self.rect.y > 0):
+				self.direction = 4
+				self.action = 2
+
+		if self.direction == 1 and self.action == 2:
+			self.image = self.f[0][self.index]
+			self.index += 1
+			if self.rect.x <= width - 150:
+				self.rect.x += 5
+			if self.index >= 15:
+				self.index = 0
+				self.direction = 0
+		elif self.direction == 2 and self.action == 2:
+			self.image = self.f[1][self.index]
+			self.index += 1
+			if self.rect.x >= 20:
+				self.rect.x -= 5
+			if self.index >= 15:
+				self.index = 0
+				self.direction = 0
+		elif self.direction == 3 and self.action == 2:
+			self.image = self.f[3][self.index]
+			self.index += 1
+			if self.index >= 15:
+				self.index = 0
+				self.direction = 0
+			if self.rect.y >= 40:
+				self.rect.y -= 5
+		elif self.direction == 4 and self.action == 2:
+			self.image = self.f[2][self.index]
+			self.index += 1
+			if self.index >= 15:
+				self.index = 0
+				self.direction = 0
+			if self.rect.y <= height - 80:
+				self.rect.y += 5
+
+
+		if self.action == 1:
+			if self.direction == 2:
+				self.image = self.f[5][self.index]
+			else:
+				self.image = self.f[4][self.index]
+			self.index +=1
+			if self.index >=16:
+				self.index = 0
+				if self.direction == 2:
+					self.image = self.f[1][self.index]
+				else:
+					self.image = self.f[0][self.index]
+				self.action = 0
 
 def generateAmbient():
 	pantalla.blit(imageFondo, [posx, posy])
@@ -155,13 +235,16 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageInfo = imageSprite.get_rect()
 	imageWidth = imageInfo[2]
 	imageHeight = imageInfo[3]
-	corteX = 33
+	if nombrearchivo == 'source/terminado.png':
+		corteX = 33
+	else:
+		corteX = (imageWidth / cantidadX)
 	matrix = []
 	corteY = (imageHeight / cantidadY)
 	listaCorte = [8,8,8,8,9,9,6,6]
 	for y in range(cantidadY):
 		matrix.append([])
-		for x in range(listaCorte[y]):
+		for x in range(cantidadX):
 			cuadro = imageSprite.subsurface(corteX * x, corteY * y, corteX,corteY)
 			matrix[y].append(cuadro)
 	return matrix
@@ -175,9 +258,14 @@ if __name__ == "__main__":
     imageFondoWidth = imagefondoInfo[2]
     imageFondoHeight = imagefondoInfo[3]
     generateAmbient()
-    matrixKano = recortarSprite('source/terminado.png', 8, 8)
-    jugador = Jugador(matrixKano)
+    matrixMario = recortarSprite('source/terminado.png', 8, 8)
+    jugador = Jugador(matrixMario)
     jugadores.add(jugador)
+    todos.add(jugador)
+    matrixBowser = recortarSprite('source/Bowser.png', 17, 6)
+    bowser = BowserEnemy(matrixBowser)
+    enemigosBowser.add(bowser)
+    todos.add(bowser)
     pygame.display.flip()
     selection = False
     menuPos = 1
@@ -255,7 +343,8 @@ if __name__ == "__main__":
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
         		posy -= 5
         generateAmbient()
-    	jugadores.draw(pantalla)
+    	todos.draw(pantalla)
     	jugadores.update()
+    	enemigosBowser.update(jugador.rect.x, jugador.rect.y)
     	pygame.display.flip()
     	reloj.tick(10)
