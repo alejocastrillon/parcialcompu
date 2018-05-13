@@ -323,13 +323,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_a:
+				elif event.key == pygame.K_LEFT:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_b:
+				elif event.key == pygame.K_DOWN:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_SPACE:
