@@ -152,6 +152,12 @@ class BowserEnemy(pygame.sprite.Sprite):
 			elif (posMarioX - self.rect.x > 0):
 				self.direction = 1
 				self.action = 2
+			elif (posMarioX == self.rect.x) and (posMarioY - self.rect.y < 0):
+			 	self.direction = 3
+				self.action = 2
+			elif (posMarioX == self.rect.x) and (posMarioY - self.rect.y < 0):
+				self.direction = 4
+				self.action = 2
 		elif abs(posMarioY - self.rect.y) < abs(posMarioX - self.rect.x):
 			if (posMarioY - self.rect.y < 0):
 				self.direction = 3
@@ -159,6 +165,14 @@ class BowserEnemy(pygame.sprite.Sprite):
 			elif (posMarioY - self.rect.y > 0):
 				self.direction = 4
 				self.action = 2
+			elif (posMarioY == self.rect.y) and (posMarioX - self.rect.x < 0):
+				self.direction = 2
+				self.action = 2
+			elif (posMarioY == self.rect.y) and (posMarioX - self.rect.x > 0):
+				self.direction = 1
+				self.action = 2
+		else:
+			self.action = 1
 
 		if self.direction == 1 and self.action == 2:
 			self.image = self.f[0][self.index]
@@ -167,7 +181,6 @@ class BowserEnemy(pygame.sprite.Sprite):
 				self.rect.x += 5
 			if self.index >= 15:
 				self.index = 0
-				self.direction = 0
 		elif self.direction == 2 and self.action == 2:
 			self.image = self.f[1][self.index]
 			self.index += 1
@@ -175,13 +188,11 @@ class BowserEnemy(pygame.sprite.Sprite):
 				self.rect.x -= 5
 			if self.index >= 15:
 				self.index = 0
-				self.direction = 0
 		elif self.direction == 3 and self.action == 2:
 			self.image = self.f[3][self.index]
 			self.index += 1
 			if self.index >= 15:
 				self.index = 0
-				self.direction = 0
 			if self.rect.y >= 40:
 				self.rect.y -= 5
 		elif self.direction == 4 and self.action == 2:
@@ -189,7 +200,6 @@ class BowserEnemy(pygame.sprite.Sprite):
 			self.index += 1
 			if self.index >= 15:
 				self.index = 0
-				self.direction = 0
 			if self.rect.y <= height - 80:
 				self.rect.y += 5
 
@@ -313,13 +323,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_LEFT:
+				elif event.key == pygame.K_a:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_b:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_SPACE:
