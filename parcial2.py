@@ -412,7 +412,7 @@ if __name__ == "__main__":
         		posy -= 5
         ls_col = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
         for l in ls_col:
-			if jugador.action != 2 and jugador.action != 0:
+			if jugador.action != 2 and jugador.action != 0 and jugador.index == 4:
 				bowser.salud -= 1
 			print "SALUD BOWSER: ", bowser.salud
         dibujarBarraSalud()
