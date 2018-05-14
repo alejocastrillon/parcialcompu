@@ -248,7 +248,6 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageHeight = imageInfo[3]
 	if nombrearchivo == 'source/mariofinal.png' or nombrearchivo == 'source/luigifinal.png':
 		corteX = 33
-
 	else:
 		corteX = (imageWidth / cantidadX)
 	matrix = []
@@ -291,7 +290,7 @@ if __name__ == "__main__":
     imageFondoHeight = imagefondoInfo[3]
     generateAmbient()
     matrixMario = recortarSprite('source/mariofinal.png', 14, 12)
-    jugador = Jugador(matrixMario,1,1)
+    jugador = Jugador(matrixMario,10,40)
     jugadores.add(jugador)
     todos.add(jugador)
     matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
@@ -350,13 +349,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_LEFT:
+				elif event.key == pygame.K_l:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_b:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_d:
