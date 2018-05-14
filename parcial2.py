@@ -47,7 +47,7 @@ def validateMove(dx, dy):
 
 class Jugador(pygame.sprite.Sprite):
 	"""docstring for Jugador"""
-	def __init__(self, matrix):
+	def __init__(self, matrix,posx,posy):
 		pygame.sprite.Sprite.__init__(self)
 		self.f = matrix
 		self.image = self.f[0][0]
@@ -57,7 +57,8 @@ class Jugador(pygame.sprite.Sprite):
 		self.index = 0
 		self.matrixposx = int(round(self.rect.x / 32))
 		self.matrixposy = int(round(self.rect.y / 32))
-
+		self.rect.x = posx
+		self.rect.y = posy
 		'''Acciones:
 		1. Puno
 		2. Caminar
@@ -245,8 +246,9 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	imageInfo = imageSprite.get_rect()
 	imageWidth = imageInfo[2]
 	imageHeight = imageInfo[3]
-	if nombrearchivo == 'source/terminado.png':
+	if nombrearchivo == 'source/mariofinal.png' or nombrearchivo == 'source/luigifinal.png':
 		corteX = 33
+
 	else:
 		corteX = (imageWidth / cantidadX)
 	matrix = []
@@ -268,10 +270,14 @@ if __name__ == "__main__":
     imageFondoWidth = imagefondoInfo[2]
     imageFondoHeight = imagefondoInfo[3]
     generateAmbient()
-    matrixMario = recortarSprite('source/terminado.png', 8, 8)
-    jugador = Jugador(matrixMario)
+    matrixMario = recortarSprite('source/mariofinal.png', 14, 12)
+    jugador = Jugador(matrixMario,1,1)
     jugadores.add(jugador)
     todos.add(jugador)
+    matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
+    jugadorDos = Jugador(matrixLuigi,1,40)
+    jugadores.add(jugadorDos)
+    todos.add(jugadorDos)
     matrixBowser = recortarSprite('source/Bowser.png', 17, 6)
     bowser = BowserEnemy(matrixBowser)
     enemigosBowser.add(bowser)
@@ -332,6 +338,18 @@ if __name__ == "__main__":
 				elif event.key == pygame.K_DOWN:
 					jugador.direction = 4
 					jugador.action = 2
+				elif event.key == pygame.K_d:
+					jugadorDos.direction = 1
+					jugadorDos.action = 2
+				elif event.key == pygame.K_a:
+					jugadorDos.direction = 2
+					jugadorDos.action = 2
+				elif event.key == pygame.K_w:
+					jugadorDos.direction = 3
+					jugadorDos.action = 2
+				elif event.key == pygame.K_s:
+					jugadorDos.direction = 4
+					jugadorDos.action = 2
 				elif event.key == pygame.K_SPACE:
 					jugador.direction = 0
 				elif event.key == pygame.K_p:
