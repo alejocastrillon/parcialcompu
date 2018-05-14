@@ -410,6 +410,11 @@ if __name__ == "__main__":
         elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
         		posy -= 5
+        ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
+        for l in ls_colus:
+			if bowser.action != 2 and bowser.action != 0 and bowser.index == 4:
+				l.salud -= 1
+			print "Salud Mario: ", l.salud
         ls_col = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
         for l in ls_col:
 			if jugador.action != 2 and jugador.action != 0 and jugador.index == 4:
