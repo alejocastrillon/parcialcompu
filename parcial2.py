@@ -393,6 +393,7 @@ if __name__ == "__main__":
         		posy -= 5
         dibujarBarraSalud()
         generateAmbient()
+        dibujarBarraSalud()
     	todos.draw(pantalla)
     	jugadores.update()
     	enemigosBowser.update(jugador.rect.x, jugador.rect.y)
