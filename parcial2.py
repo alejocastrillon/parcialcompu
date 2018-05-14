@@ -261,6 +261,26 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 			matrix[y].append(cuadro)
 	return matrix
 
+def saludPersonajes(saludMario,saludLuigi):
+    pantalla.fill([0,0,0])
+    if saludMario>=0:
+        saludMario -= 1
+        pygame.draw.line(pantalla,[0,255,0],[0,10],[100,10],50)
+        pygame.draw.line(pantalla,[255,0,0],[100 - saludMario,10],[100,10],50)
+    if saludLuigi>=0:
+        saludLuigi -= 1
+        pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width,10],50)
+        pygame.draw.line(pantalla,[255,0,0],[width-saludLuigi,10],[width,10],50)
+
+def dibujarBarraSalud():
+	  #salud Mario
+    pygame.draw.line(pantalla,[0,255,0],[0,10],[100,10],50)
+    pygame.draw.line(pantalla,[255,0,0],[100,10],[100,10],50)
+    #salud luigi
+    pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width,10],50)
+    pygame.draw.line(pantalla,[255,0,0],[width,10],[width,10],50)
+    pygame.display.flip()
+
 
 if __name__ == "__main__":
     pygame.init()
@@ -319,6 +339,7 @@ if __name__ == "__main__":
     				elif menuPos == 2:
     					done = True
     					selection = True
+    
     fondo.play()
     while not done:
         for event in pygame.event.get():
@@ -370,6 +391,7 @@ if __name__ == "__main__":
         elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
         		posy -= 5
+        dibujarBarraSalud()
         generateAmbient()
     	todos.draw(pantalla)
     	jugadores.update()
