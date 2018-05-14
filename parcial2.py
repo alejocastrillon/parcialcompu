@@ -79,7 +79,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.x <= width - 150:
 				if validateMove(int(ceil((self.rect.x + abs(posx) + 28) / 32)), int(ceil((self.rect.y + abs(posy) + 20) / 32))):
-					self.rect.x += 5
+					self.rect.x += 8
 		elif self.direction == 2 and self.action == 2:
 			self.image = self.f[3][self.index]
 			self.index += 1
@@ -87,7 +87,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.x >= 20:
 				if validateMove(int(ceil((self.rect.x + abs(posx)) / 32)), int(ceil((self.rect.y + abs(posy) + 20) / 32))):
-					self.rect.x += -5
+					self.rect.x += -8
 		elif self.direction == 3 and self.action == 2:
 			self.image = self.f[2][self.index]
 			self.index += 1
@@ -95,7 +95,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.y >= 30 :
 				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 16) / 32))):
-					self.rect.y -= 5
+					self.rect.y -= 8
 		elif self.direction == 4 and self.action == 2:
 			self.image = self.f[0][self.index]
 			self.index += 1
@@ -103,7 +103,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.y <= height - 80:
 				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 36) / 32))):
-					self.rect.y += 5
+					self.rect.y += 8
 
 		if self.action == 1:
 			if self.direction == 2:
@@ -162,37 +162,78 @@ class BowserEnemy(pygame.sprite.Sprite):
 		self.rect.y = 50
 		self.rect.x = 250
 
-	def update(self, posMarioX, posMarioY):
+	def update(self, posMarioX, posMarioY, posLuigiX, posLuigiY):
 		print "Delta x: ", abs(posMarioX - self.rect.x)
 		print "Delta Y: ", abs(posMarioY - self.rect.y)
-		if abs(posMarioY - self.rect.y) > abs(posMarioX - self.rect.x):
-			if (posMarioX - self.rect.x < 0):
-				self.direction = 2
-				self.action = 2
-			elif (posMarioX - self.rect.x > 0):
-				self.direction = 1
-				self.action = 2
-			elif (posMarioX == self.rect.x) and (posMarioY - self.rect.y < 0):
-			 	self.direction = 3
-				self.action = 2
-			elif (posMarioX == self.rect.x) and (posMarioY - self.rect.y < 0):
-				self.direction = 4
-				self.action = 2
-		elif abs(posMarioY - self.rect.y) < abs(posMarioX - self.rect.x):
-			if (posMarioY - self.rect.y < 0):
-				self.direction = 3
-				self.action = 2
-			elif (posMarioY - self.rect.y > 0):
-				self.direction = 4
-				self.action = 2
-			elif (posMarioY == self.rect.y) and (posMarioX - self.rect.x < 0):
-				self.direction = 2
-				self.action = 2
-			elif (posMarioY == self.rect.y) and (posMarioX - self.rect.x > 0):
-				self.direction = 1
-				self.action = 2
+		deltax = abs(posMarioX - self.rect.x)
+		deltay = abs(posMarioY - self.rect.y)
+		distanciaBowsertoMario = sqrt(pow((posMarioX - self.rect.x), 2) + pow((posMarioY - self.rect.y), 2))
+		distanciaBowsertoLuigi = sqrt(pow((posLuigiX - self.rect.x), 2) + pow((posLuigiY - self.rect.y), 2))
+
+		print "Distancia a Mario: ", distanciaBowsertoMario
+		print "Distancia a Luigi: ", distanciaBowsertoLuigi
+		if distanciaBowsertoMario < distanciaBowsertoLuigi:
+			if abs(posMarioY - self.rect.y) > abs(posMarioX - self.rect.x):
+				if (posMarioX - self.rect.x < 0):
+					self.direction = 2
+					self.action = 2
+				elif (posMarioX - self.rect.x > 0):
+					self.direction = 1
+					self.action = 2
+				elif (posMarioX == self.rect.x) and (posMarioY - self.rect.y < 0):
+					if deltay >= 5:
+						self.direction = 3
+						self.action = 2
+				elif (posMarioX == self.rect.x) and (posMarioY - self.rect.y < 0):
+					if deltay >=5:
+						self.direction = 4
+						self.action = 2
+			elif abs(posMarioY - self.rect.y) < abs(posMarioX - self.rect.x):
+				if (posMarioY - self.rect.y < 0):
+					self.direction = 3
+					self.action = 2
+				elif (posMarioY - self.rect.y > 0):
+					self.direction = 4
+					self.action = 2
+				elif (posMarioY == self.rect.y) and (posMarioX - self.rect.x < 0):
+					if deltax >= 5:
+						self.direction = 2
+						self.action = 2
+				elif (posMarioY == self.rect.y) and (posMarioX - self.rect.x > 0):
+					if deltax >= 5:
+						self.direction = 1
+						self.action = 2
+			else:
+				self.action = 1
 		else:
-			self.action = 1
+			if abs(posLuigiY - self.rect.y) > abs(posLuigiX - self.rect.x):
+				if (posLuigiX - self.rect.x < 0):
+					self.direction = 2
+					self.action = 2
+				elif (posLuigiX - self.rect.x > 0):
+					self.direction = 1
+					self.action = 2
+				elif (posLuigiX == self.rect.x) and (posLuigiY - self.rect.y < 0):
+				 	self.direction = 3
+					self.action = 2
+				elif (posLuigiX == self.rect.x) and (posLuigiY - self.rect.y < 0):
+					self.direction = 4
+					self.action = 2
+			elif abs(posLuigiY - self.rect.y) < abs(posLuigiX - self.rect.x):
+				if (posLuigiY - self.rect.y < 0):
+					self.direction = 3
+					self.action = 2
+				elif (posLuigiY - self.rect.y > 0):
+					self.direction = 4
+					self.action = 2
+				elif (posLuigiY == self.rect.y) and (posLuigiX - self.rect.x < 0):
+					self.direction = 2
+					self.action = 2
+				elif (posLuigiY == self.rect.y) and (posLuigiX - self.rect.x > 0):
+					self.direction = 1
+					self.action = 2
+			else:
+				self.action = 1
 
 		if self.direction == 1 and self.action == 2:
 			self.image = self.f[0][self.index]
@@ -292,9 +333,9 @@ def saludPersonajes(saludMario,saludLuigi):
 
 def dibujarBarraSalud():
 	  #salud Mario
-    pygame.draw.line(pantalla,[0,255,0],[0,10],[100,10],50)
+    pygame.draw.line(pantalla,[0,255,0],[0,10],[(jugador.salud * 10),10],50)
     #salud luigi
-    pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width,10],50)
+    pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width - 100 + (jugadorDos.salud * 10),10],50)
     pygame.display.flip()
 
 
@@ -307,7 +348,7 @@ if __name__ == "__main__":
     imageFondoHeight = imagefondoInfo[3]
     generateAmbient()
     matrixMario = recortarSprite('source/mariofinal.png', 14, 12)
-    jugador = Jugador(matrixMario,10,40)
+    jugador = Jugador(matrixMario,400,40)
     jugadores.add(jugador)
     todos.add(jugador)
     matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
@@ -366,7 +407,7 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_l:
+				elif event.key == pygame.K_h:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
@@ -400,31 +441,38 @@ if __name__ == "__main__":
 
         if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx -= 5
+        		posx -= 8
         elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx)) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx += 5
+        		posx += 8
         elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 16) / 32))):
-        		posy += 5
+        		posy +=8
         elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
-        		posy -= 5
+        		posy -= 8
         ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
         for l in ls_colus:
 			if bowser.action != 2 and bowser.action != 0 and bowser.index == 4:
 				l.salud -= 1
+				if l.salud == 0:
+					jugadores.remove(l)
+					todos.remove(l)
 			print "Salud Mario: ", l.salud
         ls_col = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
         for l in ls_col:
 			if jugador.action != 2 and jugador.action != 0 and jugador.index == 4:
 				bowser.salud -= 1
+				if bowser.salud == 0:
+					enemigosBowser.remove(bowser)
+					todos.remove(bowser)
+					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
         dibujarBarraSalud()
         generateAmbient()
         dibujarBarraSalud()
     	todos.draw(pantalla)
     	jugadores.update()
-    	enemigosBowser.update(jugador.rect.x, jugador.rect.y)
+    	enemigosBowser.update(jugador.rect.x, jugador.rect.y, jugadorDos.rect.x, jugadorDos.rect.y)
     	pygame.display.flip()
     	reloj.tick(10)
