@@ -279,16 +279,13 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 			matrix[y].append(cuadro)
 	return matrix
 
-def saludPersonajes(saludMario,saludLuigi):
+def saludPersonajes(saludM,saludL):
     pantalla.fill([0,0,0])
-    if saludMario>=0:
-        saludMario -= 1
-        pygame.draw.line(pantalla,[0,255,0],[0,10],[100,10],50)
-        pygame.draw.line(pantalla,[255,0,0],[100 - saludMario,10],[100,10],50)
-    if saludLuigi>=0:
-        saludLuigi -= 1
-        pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width,10],50)
-        pygame.draw.line(pantalla,[255,0,0],[width-saludLuigi,10],[width,10],50)
+    if saludM>=0:
+        pygame.draw.line(pantalla,[255,0,0],[100 - saludM,10],[100,10],50)
+    if saludL>=0:
+        pygame.draw.line(pantalla,[255,0,0],[width-saludL,10],[width,10],50)
+    pygame.display.flip()
 
 def dibujarBarraSalud():
 	  #salud Mario
@@ -323,6 +320,7 @@ if __name__ == "__main__":
     menuPos = 1
     a=20
     b=20
+    dano = 0
     menuStart(ROJO,NEGRO,a*2,b)
     done = False
     while not selection:
@@ -414,6 +412,8 @@ if __name__ == "__main__":
         for l in ls_colus:
 			if bowser.action != 2 and bowser.action != 0 and bowser.index == 4:
 				l.salud -= 1
+				dano +=1
+				saludPersonajes(dano,0)
 			print "Salud Mario: ", l.salud
         ls_col = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
         for l in ls_col:
