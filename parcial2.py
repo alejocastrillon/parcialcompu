@@ -59,6 +59,7 @@ class Jugador(pygame.sprite.Sprite):
 		self.matrixposy = int(round(self.rect.y / 32))
 		self.rect.x = posx
 		self.rect.y = posy
+		self.salud = 10
 		'''Acciones:
 		1. Puno
 		2. Caminar
@@ -138,6 +139,7 @@ class BowserEnemy(pygame.sprite.Sprite):
 		self.image = self.f[0][0]
 		self.rect = self.image.get_rect()
 		self.direction = 0
+		self.salud = 10
 		self.action = 0
 		self.index = 0
 		self.rect.y = 50
@@ -388,6 +390,11 @@ if __name__ == "__main__":
         elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
         		posy -= 5
+        ls_col = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
+        for l in ls_col:
+			if jugador.action != 2 and jugador.action != 0:
+				bowser.salud -= 1
+			print "SALUD BOWSER: ", bowser.salud
         dibujarBarraSalud()
         generateAmbient()
         dibujarBarraSalud()
