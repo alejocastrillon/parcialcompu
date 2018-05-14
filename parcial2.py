@@ -19,6 +19,7 @@ pygame.mixer.init(44100, -16, 2, 2048)
 golpe = pygame.mixer.Sound("source/Sounds/punch.ogg")
 movement = pygame.mixer.Sound("source/Sounds/walk.ogg")
 fondo = pygame.mixer.Sound("source/Sounds/musicfondo.ogg")
+patada = pygame.mixer.Sound("source/Sounds/patada.ogg")
 
 def readerFileCollide():
 	with open('source/fondo.json') as col:
@@ -129,6 +130,22 @@ class Jugador(pygame.sprite.Sprite):
 				else:
 					self.image = self.f[self.direction][self.index]
 				self.action = 0
+		elif self.action == 4:
+			if self.direction == 2:
+				self.image = self.f[11][self.index]
+			else:
+				self.image = self.f[10][self.index]
+
+			self.index+=1
+			if self.index >=7:
+				self.index = 0
+				if self.direction == 2:
+					self.image = self.f[3][self.index]
+				else:
+					self.image = self.f[self.direction][self.index]
+				self.action = 0
+
+
 
 class BowserEnemy(pygame.sprite.Sprite):
 	"""docstring for BowserEnemy"""
@@ -374,8 +391,11 @@ if __name__ == "__main__":
 				elif event.key == pygame.K_p:
 					golpe.play()
 					jugador.action = 1
-				elif event.key == pygame.K_m:
+				elif event.key == pygame.K_o:
 					jugador.action = 3
+				elif event.key == pygame.K_l:
+					patada.play()
+					jugador.action = 4
 
         if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
