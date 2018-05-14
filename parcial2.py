@@ -275,10 +275,8 @@ def saludPersonajes(saludMario,saludLuigi):
 def dibujarBarraSalud():
 	  #salud Mario
     pygame.draw.line(pantalla,[0,255,0],[0,10],[100,10],50)
-    pygame.draw.line(pantalla,[255,0,0],[100,10],[100,10],50)
     #salud luigi
     pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width,10],50)
-    pygame.draw.line(pantalla,[255,0,0],[width,10],[width,10],50)
     pygame.display.flip()
 
 
