@@ -324,7 +324,6 @@ class plantaEnemiga(pygame.sprite.Sprite):
 		if self.index >= 3:
 			self.index = 0
 			if random.randint(0, 50) == 2:
-				print 'prid	'
 				bala = balaPlanta(recortarSprite('source/EnemigoFijo_fondo.png', 6, 5), random.randint(1, 3), self.rect.x, self.rect.y)
 				balapl.add(bala)
 				todos.add(bala)
@@ -387,6 +386,14 @@ def dibujarBarraSalud():
     pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width - 100 + (jugadorDos.salud * 10),10],50)
     pygame.display.flip()
 
+def posicionValida():
+	x = random.randint(0, 2000) / 32
+	y = random.randint(0, 1100) / 32
+	if validateMove(x, y):
+		return ((x*32), (y*32))
+	else:
+		posicionValida()
+
 
 if __name__ == "__main__":
     pygame.init()
@@ -409,10 +416,11 @@ if __name__ == "__main__":
     enemigosBowser.add(bowser)
     todos.add(bowser)
     matrixPlanta = recortarSprite('source/EnemigoFijo_fondo.png', 6, 5)
-    for x in xrange(1,10):
+    for x in xrange(1,15):
     	planta = plantaEnemiga(matrixPlanta)
-    	planta.rect.x = random.randint(0, 600)
-    	planta.rect.y = random.randint(0, 200)
+    	(coorx, coory) = posicionValida()
+    	planta.rect.x = coorx
+    	planta.rect.y = coory
     	plantas.add(planta)
     	todos.add(planta)
     pygame.display.flip()
