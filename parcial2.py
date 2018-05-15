@@ -79,7 +79,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.x <= width - 150:
 				if validateMove(int(ceil((self.rect.x + abs(posx) + 28) / 32)), int(ceil((self.rect.y + abs(posy) + 20) / 32))):
-					self.rect.x += 8
+					self.rect.x += 10
 		elif self.direction == 2 and self.action == 2:
 			self.image = self.f[3][self.index]
 			self.index += 1
@@ -87,7 +87,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.x >= 20:
 				if validateMove(int(ceil((self.rect.x + abs(posx)) / 32)), int(ceil((self.rect.y + abs(posy) + 20) / 32))):
-					self.rect.x += -8
+					self.rect.x += -10
 		elif self.direction == 3 and self.action == 2:
 			self.image = self.f[2][self.index]
 			self.index += 1
@@ -95,7 +95,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.y >= 30 :
 				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 16) / 32))):
-					self.rect.y -= 8
+					self.rect.y -= 10
 		elif self.direction == 4 and self.action == 2:
 			self.image = self.f[0][self.index]
 			self.index += 1
@@ -103,7 +103,7 @@ class Jugador(pygame.sprite.Sprite):
 				self.index = 4
 			if self.rect.y <= height - 80:
 				if validateMove(int(ceil((self.rect.x + abs(posx) + 16) / 32)), int(ceil((self.rect.y + abs(posy) + 36) / 32))):
-					self.rect.y += 8
+					self.rect.y += 10
 
 		if self.action == 1:
 			if self.direction == 2:
@@ -352,7 +352,7 @@ if __name__ == "__main__":
     jugadores.add(jugador)
     todos.add(jugador)
     matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
-    jugadorDos = Jugador(matrixLuigi,1,40)
+    jugadorDos = Jugador(matrixLuigi,10,40)
     jugadores.add(jugadorDos)
     todos.add(jugadorDos)
     matrixBowser = recortarSprite('source/Bowser.png', 17, 6)
@@ -407,13 +407,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_h:
+				elif event.key == pygame.K_LEFT:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_b:
+				elif event.key == pygame.K_DOWN:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_d:
