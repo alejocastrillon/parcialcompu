@@ -420,43 +420,45 @@ def cargarTutorial():
 
 if __name__ == "__main__":
 
-    pygame.init()
-    readerFileCollide()
-    imageFondo = pygame.image.load('source/fondo.png')
-    imagefondoInfo = imageFondo.get_rect()
-    imageFondoWidth = imagefondoInfo[2]
-    imageFondoHeight = imagefondoInfo[3]
-    generateAmbient()
-    matrixMario = recortarSprite('source/mariofinal.png', 14, 12)
-    jugador = Jugador(matrixMario,400,40)
-    jugadores.add(jugador)
-    todos.add(jugador)
-    matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
-    jugadorDos = Jugador(matrixLuigi,50,40)
-    jugadores.add(jugadorDos)
-    todos.add(jugadorDos)
-    matrixBowser = recortarSprite('source/Bowser.png', 17, 6)
-    bowser = BowserEnemy(matrixBowser)
-    enemigosBowser.add(bowser)
-    todos.add(bowser)
-    matrixPlanta = recortarSprite('source/EnemigoFijo_fondo.png', 6, 5)
-    for x in xrange(1,10):
-    	planta = plantaEnemiga(matrixPlanta)
-    	planta.rect.x = random.randint(0, 600)
-    	planta.rect.y = random.randint(0, 200)
-    	plantas.add(planta)
-    	todos.add(planta)
-    pygame.display.flip()
-    selection = False
-    menuPos = 1
-    a=20
-    b=20
-    menuStart(ROJO,NEGRO,a*2,b)
-    done = False
-    while not selection:
+	pygame.init()
+	readerFileCollide()
+	imageFondo = pygame.image.load('source/fondo.png')
+	imagefondoInfo = imageFondo.get_rect()
+	imageFondoWidth = imagefondoInfo[2]
+	imageFondoHeight = imagefondoInfo[3]
+	generateAmbient()
+	matrixMario = recortarSprite('source/mariofinal.png', 14, 12)
+	jugador = Jugador(matrixMario,400,40)
+	jugadores.add(jugador)
+	todos.add(jugador)
+	matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
+	jugadorDos = Jugador(matrixLuigi,50,40)
+	jugadores.add(jugadorDos)
+	todos.add(jugadorDos)
+	matrixBowser = recortarSprite('source/Bowser.png', 17, 6)
+	bowser = BowserEnemy(matrixBowser)
+	enemigosBowser.add(bowser)
+	todos.add(bowser)
+	matrixPlanta = recortarSprite('source/EnemigoFijo_fondo.png', 6, 5)
+	for x in xrange(1,10):
+		planta = plantaEnemiga(matrixPlanta)
+		planta.rect.x = random.randint(0, 600)
+		planta.rect.y = random.randint(0, 200)
+		plantas.add(planta)
+		todos.add(planta)
+	pygame.display.flip()
+	selection = False
+	menuPos = 1
+	a=20
+	b=20
+	c=20
+	menuStart(ROJO,NEGRO,NEGRO, a*2,b,c)
+	done = False
+	respuesta = False
+	while not selection:
 
-    	for event in pygame.event.get():
-    		if event.type == pygame.QUIT:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
 				done = True
 				selection = True
 			if event.type == pygame.KEYDOWN:
@@ -544,53 +546,53 @@ if __name__ == "__main__":
 					jugador.action = 4
 
 
-        if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx -= 10
-        		for l in balapl:
-        			print "plantas: ",  l.rect.x
-        			l.rect.x -= 10
-        		for x in plantas:
-        			x.rect.x -= 10
-        elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx)) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx += 10
-        		for l in balapl:
-        			l.rect.x += 10
-        		for x in plantas:
-        			x.rect.x += 10
-        elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 16) / 32))):
-        		posy +=10
-        		for l in balapl:
-        			l.rect.y += 10
-        		for x in plantas:
-        			x.rect.y += 10
-        elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
-        		posy -= 10
-        		for l in balapl:
-        			l.rect.y -= 10
-        		for x in plantas:
-        			x.rect.y -= 10
-        ls_balluigi = pygame.sprite.spritecollide(jugadorDos, balapl, False)
-        for l in ls_balluigi:
-        	balapl.remove(l)
-        	todos.remove(l)
-        	jugadorDos.salud -= 1
-        	if jugadorDos.salud == 0:
+		if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
+				posx -= 10
+				for l in balapl:
+					print "plantas: ",  l.rect.x
+					l.rect.x -= 10
+				for x in plantas:
+					x.rect.x -= 10
+		elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx)) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
+				posx += 10
+				for l in balapl:
+					l.rect.x += 10
+				for x in plantas:
+					x.rect.x += 10
+		elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 16) / 32))):
+				posy +=10
+				for l in balapl:
+					l.rect.y += 10
+				for x in plantas:
+					x.rect.y += 10
+		elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
+				posy -= 10
+				for l in balapl:
+					l.rect.y -= 10
+				for x in plantas:
+					x.rect.y -= 10
+		ls_balluigi = pygame.sprite.spritecollide(jugadorDos, balapl, False)
+		for l in ls_balluigi:
+			balapl.remove(l)
+			todos.remove(l)
+			jugadorDos.salud -= 1
+			if jugadorDos.salud == 0:
 				jugadores.remove(jugadorDos)
 				todos.remove(jugadorDos)
-        ls_balmario = pygame.sprite.spritecollide(jugador, balapl, False)
-        for l in ls_balmario:
-        	balapl.remove(l)
-        	todos.remove(l)
-        	jugador.salud -= 1
-        	if jugador.salud == 0:
+		ls_balmario = pygame.sprite.spritecollide(jugador, balapl, False)
+		for l in ls_balmario:
+			balapl.remove(l)
+			todos.remove(l)
+			jugador.salud -= 1
+			if jugador.salud == 0:
 				jugadores.remove(jugador)
 				todos.remove(jugador)
-        ls_colluigi = pygame.sprite.spritecollide(jugadorDos, enemigosBowser, False)
-        for l in ls_colluigi:
+		ls_colluigi = pygame.sprite.spritecollide(jugadorDos, enemigosBowser, False)
+		for l in ls_colluigi:
 			if jugadorDos.action != 2 and jugadorDos.action != 0 and jugadorDos.index == 4:
 				bowser.salud -= 1
 				if bowser.salud == 0:
@@ -598,8 +600,8 @@ if __name__ == "__main__":
 					todos.remove(bowser)
 					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
-        ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
-        for l in ls_colus:
+		ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
+		for l in ls_colus:
 
 			if bowser.action != 2 and bowser.action != 0 and bowser.index == 4:
 				l.salud -= 1
@@ -608,8 +610,8 @@ if __name__ == "__main__":
 					todos.remove(l)
 			print "Salud Mario: ", l.salud
 
-        ls_colmario = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
-        for l in ls_colmario:
+		ls_colmario = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
+		for l in ls_colmario:
 
 			if jugador.action != 2 and jugador.action != 0 and jugador.index == 4:
 				bowser.salud -= 1
@@ -619,14 +621,14 @@ if __name__ == "__main__":
 					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
 
-        dibujarBarraSalud()
-        generateAmbient()
-        dibujarBarraSalud()
-    	todos.draw(pantalla)
-    	jugadores.update()
-    	enemigosBowser.update(jugador.rect.x, jugador.rect.y, jugadorDos.rect.x, jugadorDos.rect.y)
-    	plantas.update()
-    	balapl.update()
-    	pygame.display.flip()
-    	reloj.tick(10)
+		dibujarBarraSalud()
+		generateAmbient()
+		dibujarBarraSalud()
+		todos.draw(pantalla)
+		jugadores.update()
+		enemigosBowser.update(jugador.rect.x, jugador.rect.y, jugadorDos.rect.x, jugadorDos.rect.y)
+		plantas.update()
+		balapl.update()
+		pygame.display.flip()
+		reloj.tick(10)
 
