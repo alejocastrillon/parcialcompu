@@ -390,7 +390,7 @@ def posicionValida():
 	x = random.randint(0, 2000) / 32
 	y = random.randint(0, 1100) / 32
 	if validateMove(x, y):
-		return ((x*32), (y*32))
+		return (x*32), (y*32)
 	else:
 		posicionValida()
 
@@ -416,11 +416,11 @@ if __name__ == "__main__":
     enemigosBowser.add(bowser)
     todos.add(bowser)
     matrixPlanta = recortarSprite('source/EnemigoFijo_fondo.png', 6, 5)
-    for x in xrange(1,15):
+    for x in xrange(1,30):
     	planta = plantaEnemiga(matrixPlanta)
-    	(coorx, coory) = posicionValida()
-    	planta.rect.x = coorx
-    	planta.rect.y = coory
+    	posicion = list(posicionValida())
+    	planta.rect.x = posicion[0]
+    	planta.rect.y = posicion[1]
     	plantas.add(planta)
     	todos.add(planta)
     pygame.display.flip()
