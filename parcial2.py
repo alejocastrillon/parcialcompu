@@ -24,6 +24,8 @@ golpe = pygame.mixer.Sound("source/Sounds/punch.ogg")
 movement = pygame.mixer.Sound("source/Sounds/walk.ogg")
 fondo = pygame.mixer.Sound("source/Sounds/musicfondo.ogg")
 patada = pygame.mixer.Sound("source/Sounds/patada.ogg")
+win = pygame.image.load("source/win.png")
+gameover = pygame.image.load("source/gameover.jpg")
 
 def readerFileCollide():
 	with open('source/fondo.json') as col:
@@ -427,6 +429,7 @@ def posicionValida():
 
 
 if __name__ == "__main__":
+
 	pygame.init()
 	readerFileCollide()
 	imageFondo = pygame.image.load('source/fondo.png')
@@ -459,8 +462,9 @@ if __name__ == "__main__":
 	menuPos = 1
 	a=20
 	b=20
-	menuStart(ROJO,NEGRO, AZUL,a*2,b, b)
+	menuStart(ROJO,NEGRO,NEGRO,a*2,b, b)
 	done = False
+	fin_juego = False
 	while not selection:
 
 		for event in pygame.event.get():
@@ -519,13 +523,13 @@ if __name__ == "__main__":
 				if event.key == pygame.K_RIGHT:
 					jugador.direction = 1
 					jugador.action = 2
-				elif event.key == pygame.K_h:
+				elif event.key == pygame.K_LEFT:
 					jugador.direction = 2
 					jugador.action = 2
 				elif event.key == pygame.K_UP:
 					jugador.direction = 3
 					jugador.action = 2
-				elif event.key == pygame.K_b:
+				elif event.key == pygame.K_DOWN:
 					jugador.direction = 4
 					jugador.action = 2
 				elif event.key == pygame.K_d:
@@ -540,6 +544,14 @@ if __name__ == "__main__":
 				elif event.key == pygame.K_s:
 					jugadorDos.direction = 4
 					jugadorDos.action = 2
+				elif event.key == pygame.K_x:
+					golpe.play()
+					jugadorDos.action = 1
+				elif event.key == pygame.K_v:
+					patada.play()
+					jugadorDos.action = 4
+				elif event.key == pygame.K_c:
+					jugadorDos.action = 3
 				elif event.key == pygame.K_SPACE:
 					jugador.direction = 0
 				elif event.key == pygame.K_ESCAPE:
@@ -590,6 +602,9 @@ if __name__ == "__main__":
 			if jugadorDos.salud == 0:
 				jugadores.remove(jugadorDos)
 				todos.remove(jugadorDos)
+				fin_juego = True
+				done = True
+
 		ls_balmario = pygame.sprite.spritecollide(jugador, balapl, False)
 		for l in ls_balmario:
 			balapl.remove(l)
@@ -598,13 +613,17 @@ if __name__ == "__main__":
 			if jugador.salud == 0:
 				jugadores.remove(jugador)
 				todos.remove(jugador)
+				fin_juego = True
+				done = True
 		ls_colluigi = pygame.sprite.spritecollide(jugadorDos, enemigosBowser, False)
 		for l in ls_colluigi:
+
 			if jugadorDos.action != 2 and jugadorDos.action != 0 and jugadorDos.index == 4:
 				bowser.salud -= 1
 				if bowser.salud == 0:
 					enemigosBowser.remove(bowser)
 					todos.remove(bowser)
+					done = True
 					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
 		ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
@@ -614,7 +633,10 @@ if __name__ == "__main__":
 				if l.salud == 0:
 					jugadores.remove(l)
 					todos.remove(l)
+					fin_juego = True
+					done = True
 			print "Salud Mario: ", l.salud
+
 		ls_colmario = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
 		for l in ls_colmario:
 			if jugador.action != 2 and jugador.action != 0 and jugador.index == 4:
@@ -622,8 +644,10 @@ if __name__ == "__main__":
 				if bowser.salud == 0:
 					enemigosBowser.remove(bowser)
 					todos.remove(bowser)
+					done = True
 					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
+
 		dibujarBarraSalud()
 		generateAmbient()
 		dibujarBarraSalud()
@@ -635,3 +659,11 @@ if __name__ == "__main__":
 			balapl.update()
 		pygame.display.flip()
 		reloj.tick(10)
+	#pygame.time.wait(300)
+	if fin_juego:
+		pantalla.blit(gameover,[0,0])
+	else:
+		pantalla.blit(win,[0,0])
+	pygame.display.flip()
+	pygame.time.wait(3000)
+
