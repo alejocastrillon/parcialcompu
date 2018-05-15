@@ -4,6 +4,7 @@ import json
 from math import *
 
 size = width, height = [680, 400]
+continuar = True
 jugadores = pygame.sprite.Group()
 enemigosBowser = pygame.sprite.Group()
 plantas = pygame.sprite.Group()
@@ -392,7 +393,7 @@ def posicionValida():
 	if validateMove(x, y):
 		return (x*32), (y*32)
 	else:
-		posicionValida()
+		return (0, 0)
 
 
 if __name__ == "__main__":
@@ -494,6 +495,8 @@ if __name__ == "__main__":
 					jugadorDos.action = 2
 				elif event.key == pygame.K_SPACE:
 					jugador.direction = 0
+				elif event.key == pygame.K_ESCAPE:
+					continuar = not continuar
 				elif event.key == pygame.K_p:
 					golpe.play()
 					jugador.action = 1
@@ -578,9 +581,10 @@ if __name__ == "__main__":
         generateAmbient()
         dibujarBarraSalud()
     	todos.draw(pantalla)
-    	jugadores.update()
-    	enemigosBowser.update(jugador.rect.x, jugador.rect.y, jugadorDos.rect.x, jugadorDos.rect.y)
-    	plantas.update()
-    	balapl.update()
+    	if continuar:
+    		jugadores.update()
+    		enemigosBowser.update(jugador.rect.x, jugador.rect.y, jugadorDos.rect.x, jugadorDos.rect.y)
+    		plantas.update()
+    		balapl.update()
     	pygame.display.flip()
     	reloj.tick(10)
