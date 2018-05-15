@@ -23,6 +23,8 @@ golpe = pygame.mixer.Sound("source/Sounds/punch.ogg")
 movement = pygame.mixer.Sound("source/Sounds/walk.ogg")
 fondo = pygame.mixer.Sound("source/Sounds/musicfondo.ogg")
 patada = pygame.mixer.Sound("source/Sounds/patada.ogg")
+win = pygame.image.load("source/win.png")
+gameover = pygame.image.load("source/gameover.jpg")
 
 def readerFileCollide():
 	with open('source/fondo.json') as col:
@@ -453,6 +455,7 @@ if __name__ == "__main__":
 	b=20
 	c=20
 	menuStart(ROJO,NEGRO,NEGRO, a*2,b,c)
+	fin_juego = False
 	done = False
 	respuesta = False
 	while not selection:
@@ -583,6 +586,8 @@ if __name__ == "__main__":
 			if jugadorDos.salud == 0:
 				jugadores.remove(jugadorDos)
 				todos.remove(jugadorDos)
+				fin_juego = True
+				done = True
 		ls_balmario = pygame.sprite.spritecollide(jugador, balapl, False)
 		for l in ls_balmario:
 			balapl.remove(l)
@@ -591,6 +596,8 @@ if __name__ == "__main__":
 			if jugador.salud == 0:
 				jugadores.remove(jugador)
 				todos.remove(jugador)
+				fin_juego = True
+				done =True
 		ls_colluigi = pygame.sprite.spritecollide(jugadorDos, enemigosBowser, False)
 		for l in ls_colluigi:
 			if jugadorDos.action != 2 and jugadorDos.action != 0 and jugadorDos.index == 4:
@@ -598,6 +605,7 @@ if __name__ == "__main__":
 				if bowser.salud == 0:
 					enemigosBowser.remove(bowser)
 					todos.remove(bowser)
+					done = True
 					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
 		ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
@@ -608,7 +616,11 @@ if __name__ == "__main__":
 				if l.salud == 0:
 					jugadores.remove(l)
 					todos.remove(l)
+					fin_juego = True
+					done = True
 			print "Salud Mario: ", l.salud
+					
+
 
 		ls_colmario = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
 		for l in ls_colmario:
@@ -618,6 +630,7 @@ if __name__ == "__main__":
 				if bowser.salud == 0:
 					enemigosBowser.remove(bowser)
 					todos.remove(bowser)
+					done = True
 					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
 
@@ -631,4 +644,13 @@ if __name__ == "__main__":
 		balapl.update()
 		pygame.display.flip()
 		reloj.tick(10)
+
+	reloj.tick(80)
+	if fin_juego:
+		pantalla.blit(gameover,[0,0])
+	else:
+		pantalla.blit(win,[0,0])
+	pygame.display.flip()
+	reloj.tick(80)
+
 
