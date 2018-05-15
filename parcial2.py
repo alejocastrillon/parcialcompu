@@ -497,33 +497,33 @@ if __name__ == "__main__":
 
         if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx -= 8
+        		posx -= 10
         		for l in balapl:
         			print "plantas: ",  l.rect.x
-        			l.rect.x -= 8
+        			l.rect.x -= 10
         		for x in plantas:
-        			x.rect.x -= 8
+        			x.rect.x -= 10
         elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx)) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx += 8
+        		posx += 10
         		for l in balapl:
-        			l.rect.x += 8
+        			l.rect.x += 10
         		for x in plantas:
-        			x.rect.x += 8
+        			x.rect.x += 10
         elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 16) / 32))):
-        		posy +=8
+        		posy +=10
         		for l in balapl:
-        			l.rect.y += 8
+        			l.rect.y += 10
         		for x in plantas:
-        			x.rect.y += 8
+        			x.rect.y += 10
         elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
         	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
-        		posy -= 8
+        		posy -= 10
         		for l in balapl:
-        			l.rect.y -= 8
+        			l.rect.y -= 10
         		for x in plantas:
-        			x.rect.y -= 8
+        			x.rect.y -= 10
         ls_balluigi = pygame.sprite.spritecollide(jugadorDos, balapl, False)
         for l in ls_balluigi:
         	balapl.remove(l)
