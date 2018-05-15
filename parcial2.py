@@ -214,7 +214,7 @@ class BowserEnemy(pygame.sprite.Sprite):
 					self.direction = 1
 					self.action = 2
 				elif (posLuigiX == self.rect.x) and (posLuigiY - self.rect.y < 0):
-				 	self.direction = 3
+					self.direction = 3
 					self.action = 2
 				elif (posLuigiX == self.rect.x) and (posLuigiY - self.rect.y < 0):
 					self.direction = 4
@@ -285,18 +285,25 @@ def generateAmbient():
 
 #generar menu
 
-def menuStart(colorUno,colorDos,a,b):
+def menuStart(colorUno,colorDos,ColorTres,a,b,c):
 	pantalla.fill(BLANCO)
 	fondo = pygame.image.load("source/fondoMenu.png")
 	pantalla.blit(fondo,[0,0])
+	text_es = pygame.font.Font('freesansbold.ttf',15)
+	render_text = text_es.render("Para seleccionar la opcion presione ESPACE",True,[255,255,255])
+	pantalla.blit(render_text,[width/2,0])
 	largoTexto = pygame.font.Font('freesansbold.ttf',a)
 	largoTextoDos = pygame.font.Font('freesansbold.ttf',b)
+	largoTextoTres = pygame.font.Font('freesansbold.ttf',c)
 	renderUno = largoTexto.render("Jugar",True,colorUno)
-	renderDos = largoTextoDos.render("Salir",True,colorDos)
+	renderDos = largoTextoDos.render("Como jugar",True,colorDos)
+	renderTres = largoTextoTres.render("Salir",True,ColorTres)
 	pos_Uno = (width/2,height/2)
 	pos_Dos = (width/2,(height/2) + 35)
+	pos_Tres = (width/2,(height/2)+70)
 	pantalla.blit(renderUno,pos_Uno)
 	pantalla.blit(renderDos,pos_Dos)
+	pantalla.blit(renderTres,pos_Tres)
 	pygame.display.flip()
 
 
@@ -321,85 +328,127 @@ def recortarSprite(nombrearchivo, cantidadX, cantidadY):
 	return matrix
 
 def saludPersonajes(saludMario,saludLuigi):
-    pantalla.fill([0,0,0])
-    if saludMario>=0:
-        saludMario -= 1
-        pygame.draw.line(pantalla,[0,255,0],[0,10],[100,10],50)
-        pygame.draw.line(pantalla,[255,0,0],[100 - saludMario,10],[100,10],50)
-    if saludLuigi>=0:
-        saludLuigi -= 1
-        pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width,10],50)
-        pygame.draw.line(pantalla,[255,0,0],[width-saludLuigi,10],[width,10],50)
+	pantalla.fill([0,0,0])
+	if saludMario>=0:
+		saludMario -= 1
+		pygame.draw.line(pantalla,[0,255,0],[0,10],[100,10],50)
+		pygame.draw.line(pantalla,[255,0,0],[100 - saludMario,10],[100,10],50)
+	if saludLuigi>=0:
+		saludLuigi -= 1
+		pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width,10],50)
+		pygame.draw.line(pantalla,[255,0,0],[width-saludLuigi,10],[width,10],50)
 
 def dibujarBarraSalud():
 	  #salud Mario
-    pygame.draw.line(pantalla,[0,255,0],[0,10],[(jugador.salud * 10),10],50)
-    #salud luigi
-    pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width - 100 + (jugadorDos.salud * 10),10],50)
-    pygame.display.flip()
+	pygame.draw.line(pantalla,[0,255,0],[0,10],[(jugador.salud * 10),10],50)
+	#salud luigi
+	pygame.draw.line(pantalla,[0,255,0],[width-100,10],[width - 100 + (jugadorDos.salud * 10),10],50)
+	pygame.display.flip()
+
+def cargarTutorial():
+	select= False
+	done = False
+	im = pygame.image.load("source/tutorial.png")
+	pantalla.blit(im,[0,0])
+	largoTexto = pygame.font.Font('freesansbold.ttf',20)
+	renderUno = largoTexto.render("Presione SPACE para Jugar",True,[255,255,255])
+	pos_Uno = [(width/2)-60,0]
+	pantalla.blit(renderUno,pos_Uno)
+	pygame.display.flip()
+
+	while not select:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				done = True
+				select = True
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_SPACE:
+					print 'entre'
+					select = True
+	pygame.display.flip()
+	return done
 
 
 if __name__ == "__main__":
-    pygame.init()
-    readerFileCollide()
-    imageFondo = pygame.image.load('source/fondo.png')
-    imagefondoInfo = imageFondo.get_rect()
-    imageFondoWidth = imagefondoInfo[2]
-    imageFondoHeight = imagefondoInfo[3]
-    generateAmbient()
-    matrixMario = recortarSprite('source/mariofinal.png', 14, 12)
-    jugador = Jugador(matrixMario,400,40)
-    jugadores.add(jugador)
-    todos.add(jugador)
-    matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
-    jugadorDos = Jugador(matrixLuigi,10,40)
-    jugadores.add(jugadorDos)
-    todos.add(jugadorDos)
-    matrixBowser = recortarSprite('source/Bowser.png', 17, 6)
-    bowser = BowserEnemy(matrixBowser)
-    enemigosBowser.add(bowser)
-    todos.add(bowser)
-    pygame.display.flip()
-    selection = False
-    menuPos = 1
-    a=20
-    b=20
-    menuStart(ROJO,NEGRO,a*2,b)
-    done = False
-    while not selection:
+	pygame.init()
+	readerFileCollide()
+	imageFondo = pygame.image.load('source/fondo.png')
+	imagefondoInfo = imageFondo.get_rect()
+	imageFondoWidth = imagefondoInfo[2]
+	imageFondoHeight = imagefondoInfo[3]
+	generateAmbient()
+	matrixMario = recortarSprite('source/mariofinal.png', 14, 12)
+	jugador = Jugador(matrixMario,400,40)
+	jugadores.add(jugador)
+	todos.add(jugador)
+	matrixLuigi = recortarSprite('source/luigifinal.png',14,12)
+	jugadorDos = Jugador(matrixLuigi,10,40)
+	jugadores.add(jugadorDos)
+	todos.add(jugadorDos)
+	matrixBowser = recortarSprite('source/Bowser.png', 17, 6)
+	bowser = BowserEnemy(matrixBowser)
+	enemigosBowser.add(bowser)
+	todos.add(bowser)
+	pygame.display.flip()
+	selection = False
+	menuPos = 1
+	a=20
+	b=20
+	c=20
+	menuStart(ROJO,NEGRO,NEGRO, a*2,b,c)
+	done = False
+	respuesta = False
+	while not selection:
 
-    	for event in pygame.event.get():
-    		if event.type == pygame.QUIT:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
 				done = True
 				selection = True
-    		if event.type == pygame.KEYDOWN:
-    			if event.key == pygame.K_DOWN:
-    				menuPos +=1
-    				if menuPos == 2:
-    					b = b*2
-    					a=20
-    					menuStart(NEGRO,ROJO,a,b)
-    				elif menuPos >= 2:
-    					menuPos = 2
-    			elif event.key == pygame.K_UP:
-    				menuPos -=1
-    				if menuPos == 1:
-    					a = a*2
-    					b=20
-    					menuStart(ROJO,NEGRO,a,b)
-    				elif menuPos <= 0:
-    					menuPos = 1
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_DOWN:
+					menuPos +=1
+					if menuPos == 2:
+						b = b*2
+						c = 20
+						a=20
+						menuStart(NEGRO,ROJO,NEGRO,a,b,c)
+					elif menuPos == 3:
+						c = c*2
+						b= 20
+						a= 20
+						menuStart(NEGRO,NEGRO,ROJO,a,b,c)
 
-    			elif event.key == pygame.K_SPACE:
-    				if menuPos == 1:
-    					selection = True
-    				elif menuPos == 2:
-    					done = True
-    					selection = True
-    
-    fondo.play()
-    while not done:
-        for event in pygame.event.get():
+					elif menuPos >= 3:
+						menuPos = 3
+				elif event.key == pygame.K_UP:
+					menuPos -=1
+					if menuPos == 1:
+						a = a*2
+						b=20
+						c=20
+						menuStart(ROJO,NEGRO,NEGRO,a,b,c)
+					if menuPos == 2:
+						b = b*2
+						c= 20
+						a = 20
+						menuStart(NEGRO,ROJO,NEGRO,a,b,c)
+					elif menuPos <= 0:
+						menuPos = 1
+
+				elif event.key == pygame.K_SPACE:
+					if menuPos == 1:
+						selection = True
+					elif menuPos == 2:
+						respuesta = cargarTutorial()
+						pygame.display.flip()
+						selection = True
+					elif menuPos == 3:
+						done = True
+						selection = True
+	
+	fondo.play()
+	while not done:
+		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				done = True
 			elif event.type == pygame.KEYDOWN:
@@ -439,28 +488,28 @@ if __name__ == "__main__":
 					patada.play()
 					jugador.action = 4
 
-        if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx -= 8
-        elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx)) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
-        		posx += 8
-        elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 16) / 32))):
-        		posy +=8
-        elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
-        	if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
-        		posy -= 8
-        ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
-        for l in ls_colus:
+		if jugador.direction == 1 and jugador.action == 2 and jugador.rect.x >= width -150 and posx >= width - imageFondoWidth:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx) + 30) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
+				posx -= 8
+		elif jugador.direction == 2 and jugador.action == 2 and jugador.rect.x <= 20 and posx <= -10:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx)) / 32)), int(ceil((jugador.rect.y + abs(posy) + 20) / 32))):
+				posx += 8
+		elif jugador.direction == 3 and jugador.action == 2 and jugador.rect.y <= 40 and posy <= -10:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 16) / 32))):
+				posy +=8
+		elif jugador.direction == 4 and jugador.action == 2 and jugador.rect.y >= height - 80 and posy >= height- imageFondoHeight:
+			if validateMove(int(ceil((jugador.rect.x + abs(posx) + 16) / 32)), int(ceil((jugador.rect.y + abs(posy) + 32) / 32))):
+				posy -= 8
+		ls_colus = pygame.sprite.spritecollide(bowser, jugadores, False)
+		for l in ls_colus:
 			if bowser.action != 2 and bowser.action != 0 and bowser.index == 4:
 				l.salud -= 1
 				if l.salud == 0:
 					jugadores.remove(l)
 					todos.remove(l)
 			print "Salud Mario: ", l.salud
-        ls_col = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
-        for l in ls_col:
+		ls_col = pygame.sprite.spritecollide(jugador, enemigosBowser, False)
+		for l in ls_col:
 			if jugador.action != 2 and jugador.action != 0 and jugador.index == 4:
 				bowser.salud -= 1
 				if bowser.salud == 0:
@@ -468,11 +517,11 @@ if __name__ == "__main__":
 					todos.remove(bowser)
 					print "Has ganado"
 			print "SALUD BOWSER: ", bowser.salud
-        dibujarBarraSalud()
-        generateAmbient()
-        dibujarBarraSalud()
-    	todos.draw(pantalla)
-    	jugadores.update()
-    	enemigosBowser.update(jugador.rect.x, jugador.rect.y, jugadorDos.rect.x, jugadorDos.rect.y)
-    	pygame.display.flip()
-    	reloj.tick(10)
+		dibujarBarraSalud()
+		generateAmbient()
+		dibujarBarraSalud()
+		todos.draw(pantalla)
+		jugadores.update()
+		enemigosBowser.update(jugador.rect.x, jugador.rect.y, jugadorDos.rect.x, jugadorDos.rect.y)
+		pygame.display.flip()
+		reloj.tick(10)
